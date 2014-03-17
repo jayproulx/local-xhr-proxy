@@ -1,77 +1,21 @@
-var http = require('http');
-var express = require("express");
+var http = require('http'),
+    httpProxy = require('http-proxy');
 
-/* your app config here */
+//
+// Create a proxy server with custom application logic
+//
+var proxy = httpProxy.createProxyServer({});
 
-var defaultOptions = {
-  // host to forward to
-  host:   'localhost',
-  // port to forward to
-  port:   4503
-};
-
-Object.spawn = function (parent, props) {
-  var defs = {}, key;
-  for (key in props) {
-    if (props.hasOwnProperty(key)) {
-      defs[key] = {value: props[key], enumerable: true};
-    }
-  }
-  return Object.create(parent, defs);
-}
-
-var proxy = function(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  var options = Object.spawn(defaultOptions, {
-    // path to forward to
-    path:   req.url,
-    // request method
-    method: req.method,
-    // headers to send
-    headers: req.headers
-  });
-
-  var creq = http.request(options, function(cres) {
-
-    // set encoding
-    cres.setEncoding('utf8');
-
-    // wait for data
-    cres.on('data', function(chunk){
-      res.send(chunk);
-    });
-
-    cres.on('close', function(){
-      // closed, let's end client request as well 
-      res.status(cres.statusCode);
-      next();
-    });
-
-  }).on('error', function(e) {
-    // we got an error, return 500 error to client and log error
-    console.log(e.message);
-    res.status(500);
-    next();
-  });
-
-  creq.end();
-}
-
-var logger = function(req, res, next) {
-    console.log("Received request: " + req.originalUrl);
-    next(); 
-}
-
-var app = express();
-var port = process.env.PORT || 8888;
-
-app.configure(function(){
-    app.use(logger); // Here you add your logger to the stack.
-    app.use(proxy);
-    app.use(app.router); // The Express routes handler.
+//
+// Create your custom server and just call `proxy.web()` to proxy 
+// a web request to the target passed in the options
+// also you can use `proxy.ws()` to proxy a websockets request
+//
+var server = require('http').createServer(function(req, res) {
+  // You can define here your custom logic to handle the request
+  // and then proxy the request.
+  proxy.web(req, res, { target: 'http://127.0.0.1:4503' });
 });
 
-console.log("Running on " + port);
-app.listen(port);
-
+console.log("listening on port 5050")
+server.listen(5050);
