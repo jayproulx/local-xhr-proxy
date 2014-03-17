@@ -14,7 +14,9 @@ var proxy = httpProxy.createProxyServer({});
 var server = require('http').createServer(function(req, res) {
   // You can define here your custom logic to handle the request
   // and then proxy the request.
-  proxy.web(req, res, { target: 'http://127.0.0.1:4503' });
+  
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	proxy.web(req, res, { target: 'http://127.0.0.1:4503' });
 });
 
 console.log("listening on port 5050")
