@@ -1,15 +1,19 @@
 {
   "name": "xhrproxy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "xhrproxy.js",
   "dependencies": {
-    "http-proxy": "~1.0.2"
+    "http-proxy": "~1.0.2",
+    "optimist": "~0.6.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "bin": {
+    "xhrproxy": "xhrproxy.js"
+  },
+  "author": "Jay Proulx",
   "license": "ISC"
 }
