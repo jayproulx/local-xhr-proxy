@@ -1,23 +1,25 @@
+#! /usr/bin/env node
+
 var http = require('http'),
     httpProxy = require('http-proxy');
 
-//
-// Create a proxy server with custom application logic
-//
+var argv = require('optimist')
+	.usage('Serve all request from a remote server locally, appending an "Access-Control-Allow-Origin: *" header.\nUsage: $0 --server [remote address] --port [5050|local port]')
+	.demand('server')
+	.alias('s', 'server')
+	.describe('s', 'Remote server address')
+	.alias('p', 'port')
+	.describe('p', 'Local port')
+	.default('port', 5050)
+	.argv;
+
 var proxy = httpProxy.createProxyServer({});
 
-//
-// Create your custom server and just call `proxy.web()` to proxy 
-// a web request to the target passed in the options
-// also you can use `proxy.ws()` to proxy a websockets request
-//
 var server = require('http').createServer(function(req, res) {
-  // You can define here your custom logic to handle the request
-  // and then proxy the request.
-  
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	proxy.web(req, res, { target: 'http://127.0.0.1:4503' });
+	proxy.web(req, res, { target: argv.s });
 });
 
-console.log("listening on port 5050")
-server.listen(5050);
+console.log("Routing requests to", argv.s, "over port", argv.p);
+console.log("Press Ctrl-C to exit.");
+server.listen(argv.p);
