@@ -1,15 +1,14 @@
-local-xhr-proxy
-===============
-
 A simple tool to add ```Access-Control-Allow-Origin: *``` response headers when developing an application locally, but connecting to remote API's.
 
-*** Installation
+Installation
+------------
 
 ```
 # npm install -g xhrproxy
 ```
 
-*** Usage
+Usage
+-----
 
 ```
 Serve all request from a remote server locally, appending an "Access-Control-Allow-Origin: *" header.
