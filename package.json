@@ -1,7 +1,7 @@
 {
   "name": "xhrproxy",
   "version": "0.0.1",
-  "description": 'Serve all request from a remote server locally, appending an "Access-Control-Allow-Origin: *" header.',
+  "description": "Serve all request from a remote server locally, appending an 'Access-Control-Allow-Origin: *' header.",
   "main": "xhrproxy.js",
   "dependencies": {
     "http-proxy": "~1.0.2",
