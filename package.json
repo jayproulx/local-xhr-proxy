@@ -1,19 +1,15 @@
 {
   "name": "xhrproxy",
   "version": "0.0.1",
-  "description": "",
+  "description": 'Serve all request from a remote server locally, appending an "Access-Control-Allow-Origin: *" header.',
   "main": "xhrproxy.js",
   "dependencies": {
     "http-proxy": "~1.0.2",
     "optimist": "~0.6.1"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "xhrproxy": "xhrproxy.js"
   },
   "author": "Jay Proulx",
-  "license": "ISC"
+  "license": "MIT"
 }
